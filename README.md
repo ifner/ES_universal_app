@@ -11,8 +11,8 @@
 #### 2、应用核心层模块
 负责核心层之上各模块的数据交互，意在解耦各模块间的业务依赖，提供事件驱动、内存管理、缓存队列等
 <br/>
-#### 3、通用功能模块
-负责提供常用的功能接口调用，如md5、base64、aes\des、json解析、FILE控制接口  等，ps或可去除此模块，以零散的三方库形式
+#### 3、工具类模块
+负责提供常用的工具接口调用，如md5、base64、aes\des、json解析、FILE控制接口  等，ps或可去除此模块，以零散的三方库形式
 <br/>
 #### 4、通信基础层模块
 负责常用（通用）的协议通信、流程控制、收发数据缓存（不负责具体业务协议的组包和解析）ps思考缓存队列是复用 “核心层” 还是内建
@@ -47,26 +47,41 @@
 
 Based on embedded Linux, build a business-independent application layer framework
 
-The following components are planned:
-
-1. System layer module: responsible for the safe call of linux system interface, secondary packaging
-
-2. Application core layer module: responsible for the data interaction of the modules above the core layer, intended to decouple the business dependencies between the modules, provide event-driven, memory management, cache queue, etc.
-
-3. General function module: responsible for providing commonly used function interface calls, such as md5, base64, aes\des, json parsing, FILE control interface, etc.
-
-4. Communication layer module: Responsible for common (general) protocol communication, process control, sending and receiving data cache (not responsible for grouping and parsing of specific business protocols), and gradually gather mqtts, http, curl, openssl, json, websocket, rtp, etc. Function (may provide device web service function), consider whether to split the specific agreement.
-
-5. Log management module: responsible for the following functions: hierarchical log info, local log generation, remote log generation, device crash coredump generation, and output of logs of different levels or modules according to serial commands
-
-6. Remote debugging module: responsible for supporting the remote debugging function (ssh command), you can consider multiplexing the relevant interfaces of the communication layer, you can consider this module into the log management module
-
-7. Interaction layer module: Provides a universal and customer-independent interaction interface, including device web end and device offline interface, etc. It can be considered to be split into two modules, and the multiplexing interface with the communication layer module needs to be considered
-
-8. GUI module: do not expand
-
-9. General business layer: Based on the baseline or task, the general business is abstracted, and the core/basic business functions are implemented at this layer. The ps baseline business protocol analysis is processed at this layer, and the custom protocol is processed at the custom layer.
-
-10. Baseline business layer: According to the specific task requirements, the "basic business layer" is combined to provide the final usable solution
-
-11. Customized business layer: do not expand
+### Plan the following components:
+#### 1. System layer module:
+Responsible for safe call of linux system interface, secondary packaging
+<br>
+#### 2. Application core module
+Responsible for the data interaction of the modules above the core layer, intended to decouple the business dependencies between the modules, provide event-driven, memory management, cache queues, etc.
+<br/>
+#### 3. Tools module
+Responsible for providing commonly used tool interface calls, such as md5, base64, aes\des, json parsing, FILE control interface, etc. ps may remove this module in the form of a scattered three-party library
+<br/>
+#### 4. Communication basic layer module
+Responsible for common (universal) protocol communication, process control, and sending and receiving data cache (not responsible for specific business protocol grouping and parsing) PS thinks whether the cache queue reuses the "core layer" or built-in
+<br/>
+#### 5. Communication protocol layer module
+Network communication: gradually integrate functions such as mqtts, http, curl, openssl, json, websocket (may provide device web service functions) ps video rtp, etc. or split into independent modules to provide capabilities
+Industrial communication: provide serial communication related interfaces, iic, spi, can, etc., the driver layer provides the original interface, this module needs to be packaged ps thinking whether the serial data communication queue of the serial communication is processed internally or uses the "communication base layer" or "app core layer" "
+<br/>
+#### 5. Log management module
+Responsible for the following functions: hierarchical log info, local log generation, remote log generation, device crash coredump generation, and output of logs of different levels or modules according to serial commands
+<br/>
+#### 6. Remote debugging module
+Responsible for supporting the remote debugging function (ssh command), you can consider multiplexing the relevant interfaces of the communication layer, you can consider this module into the log management module
+<br/>
+#### 7. Interactive layer module
+Provide a universal and customer-independent interaction interface, including device web end and device offline interface. You can consider splitting into two modules, and you need to consider the multiplexing interface with the communication layer module.
+<br/>
+#### 8, GUI module
+Do not expand
+<br/>
+#### 9, General Business Layer
+According to the baseline or task, the general business is abstracted and the core/basic business functions are implemented at this layer. The ps baseline business protocol analysis is processed at this layer, and the custom protocol is processed at the custom layer
+<br/>
+#### 10. Baseline Business Layer
+According to the specific task requirements, combine the "general business layer" to provide a baseline business solution that can be finally used
+<br/>
+#### 11. Customized business layer
+Do not expand
+<br/><br/><br/><br/><br/>
